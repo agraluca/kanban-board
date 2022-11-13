@@ -21,14 +21,14 @@ class CardService {
 
     return cards.map((card) => CardMapper.toDomain(card));
   }
-  createCard(card: TKanbanCard) {
-    const body = CardMapper.toPersistence(card);
+  createCard(card: Omit<TKanbanCard, "id">) {
+    const body = CardMapper.createToPersistence(card);
     return this.httpClient.post("/cards", {
       body,
     });
   }
   editCard(card: TKanbanCard) {
-    const body = CardMapper.toPersistence(card);
+    const body = CardMapper.editToPersistence(card);
     return this.httpClient.put(`/cards/${card.id}`, {
       body,
     });

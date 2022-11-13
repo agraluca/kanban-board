@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import { TTitle } from "../KanbanBoard/styles";
 
 export const Wrapper = styled.section`
   ${({ theme }) => css`
@@ -18,8 +17,8 @@ export const Wrapper = styled.section`
 export const Header = styled.header`
   ${({ theme }) => css`
     display: flex;
-    width: 100%;
     gap: ${theme.spacings.xsmall};
+    width: 100%;
     justify-content: space-between;
     align-items: center;
   `}
@@ -32,10 +31,9 @@ export const IconsWrapper = styled.span`
   `}
 `;
 
-export const Title = styled.h4<TTitle>`
-  ${({ theme, backgroundColor }) => css`
+export const Title = styled.h4`
+  ${({ theme }) => css`
     color: ${theme.colors.blue.dark};
-    background: ${backgroundColor};
     font-size: ${theme.font.sizes.medium};
     font-weight: ${theme.font.weight.bold};
     padding: ${theme.spacings.xxsmall};
@@ -43,8 +41,6 @@ export const Title = styled.h4<TTitle>`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: auto;
-    max-width: 15ch;
   `}
 `;
 
@@ -114,6 +110,10 @@ export const TransparentButton = styled.button`
     transition: opacity 0.3s ease-in-out;
     &:hover {
       opacity: 0.7;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
     }
   `}
 `;

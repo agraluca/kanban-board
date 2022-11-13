@@ -2,9 +2,17 @@ import { TKanbanCard } from "pages/Home/useHome";
 import { TCardServices } from "services/cardService";
 
 class CardMapper {
-  toPersistence(domainCard: TKanbanCard) {
+  createToPersistence(domainCard: Omit<TKanbanCard, "id">) {
     return {
-      id: domainCard.id,
+      titulo: domainCard.title,
+      conteudo: domainCard.content,
+      lista: domainCard.list,
+    };
+  }
+
+  editToPersistence(domainCard: TKanbanCard) {
+    return {
+      id: domainCard?.id,
       titulo: domainCard.title,
       conteudo: domainCard.content,
       lista: domainCard.list,

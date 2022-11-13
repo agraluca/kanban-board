@@ -5,6 +5,7 @@ export const Wrapper = styled.main`
     display: flex;
     justify-content: space-between;
     gap: ${theme.spacings.small};
-    height: 85vh;
+    height: auto;
+    margin-bottom: ${theme.spacings.medium};
   `}
 `;

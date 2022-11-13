@@ -1,7 +1,6 @@
-import { useState } from "react";
-
 import KanbanCard from "../KanbanCard";
-import { TKanbanCard } from "pages/Home/useHome";
+import KanbanAddCard from "../KanbanAddCard";
+import { TKanbanCard, useHome } from "pages/Home/useHome";
 
 import plusIcon from "assets/images/plus-circle.svg";
 
@@ -16,15 +15,12 @@ type TKanbanBoard = {
 };
 
 function KanbanBoard({ title = "To Do", cards = [], type }: TKanbanBoard) {
-  const [isAdding, setIsAdding] = useState(false);
+  const { isAdding, isEditing, handleShowAddArea } = useHome();
+
   const colorMapper = {
     toDo: theme.colors.blue.lighter,
     doing: theme.colors.yellow,
     done: theme.colors.green,
-  };
-
-  const handleShowAddArea = () => {
-    setIsAdding(true);
   };
 
   const toDoBoard = type === "toDo";
@@ -40,12 +36,11 @@ function KanbanBoard({ title = "To Do", cards = [], type }: TKanbanBoard) {
         </S.AddMoreArea>
       )}
 
-      {/* {showAddCard && (
-
-      )} */}
+      {showAddCard && <KanbanAddCard />}
 
       {cards.map(({ id, title, content, list }) => (
         <KanbanCard
+          isEditing={id === isEditing}
           key={id}
           id={id}
           title={title}

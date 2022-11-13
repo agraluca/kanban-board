@@ -18,6 +18,11 @@ const GlobalStyles = createGlobalStyle`
       background: ${theme.colors.background};
     }
 
+    textarea {
+      font-family: ${theme.font.family};
+      font-size: ${theme.font.sizes.small};
+    }
+
     button {
       cursor: pointer;
     }

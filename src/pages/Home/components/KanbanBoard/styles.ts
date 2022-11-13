@@ -8,7 +8,7 @@ export const Wrapper = styled.main`
     gap: ${theme.spacings.xxsmall};
     position: relative;
     width: 100%;
-    height: 100%;
+    min-height: 80vh;
     background-color: ${theme.colors.white};
     padding: ${theme.spacings.xxsmall};
     border-radius: ${theme.border.smallRadius};

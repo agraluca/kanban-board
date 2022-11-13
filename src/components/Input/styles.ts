@@ -1,4 +1,5 @@
-import styled, { css } from "styled-components";
+import styled, { css, DefaultTheme } from "styled-components";
+import { TInput } from ".";
 
 export const InputWrapper = styled.section`
   ${({ theme }) => css`
@@ -9,7 +10,7 @@ export const InputWrapper = styled.section`
   `}
 `;
 
-const errorModifer = (theme) => css`
+const errorModifer = (theme: DefaultTheme) => css`
   color: ${theme.colors.red.main};
   border: 0.2rem solid ${theme.colors.red.main};
   &:focus {
@@ -17,16 +18,16 @@ const errorModifer = (theme) => css`
   }
 `;
 
-export const Input = styled.input`
-  ${({ theme, styleType, error }) => css`
+export const Input = styled.input<Pick<TInput, "error">>`
+  ${({ theme, error }) => css`
     width: 100%;
-    height: 5rem;
+    height: 3rem;
     background: ${theme.colors.white};
-    border-radius: ${styleType};
-    font-size: ${theme.font.sizes.medium};
-    border: none;
+    border-radius: ${theme.border.smallRadius};
+    font-size: ${theme.font.sizes.small};
+    border: 0.2rem solid ${theme.colors.gray.light};
     outline: 0;
-    padding: 0 ${theme.spacings.xsmall};
+    padding: 0 ${theme.spacings.xxsmall};
     font-family: ${theme.font.family};
     appearance: none;
 
