@@ -1,20 +1,18 @@
 import Button from "components/Button";
 import CreatePortalWrapper from "components/CreatePortalWrapper";
 
-import PropTypes from "prop-types";
-
 import * as S from "./styles";
 
-Modal.propTypes = {
-  visible: PropTypes.bool,
-  title: PropTypes.node,
-  description: PropTypes.string,
-  cancelButtonLabel: PropTypes.string,
-  deleteButtonLabel: PropTypes.string,
-  colorType: PropTypes.oneOf(["primary", "danger"]),
-  handleCancel: PropTypes.func,
-  handleConfirmDelete: PropTypes.func,
-  isLoading: PropTypes.bool,
+export type TModal = {
+  visible: boolean;
+  title: string;
+  description?: string;
+  cancelButtonLabel?: string;
+  deleteButtonLabel?: string;
+  colorType?: "primary" | "danger";
+  handleCancel: () => void;
+  handleConfirmDelete: () => void;
+  isLoading: boolean;
 };
 
 function Modal({
@@ -27,7 +25,7 @@ function Modal({
   handleCancel,
   handleConfirmDelete,
   isLoading = false,
-}) {
+}: TModal) {
   if (!visible) {
     return null;
   }

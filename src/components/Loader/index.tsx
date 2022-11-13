@@ -1,15 +1,13 @@
 import loader from "assets/images/loader.svg";
 import CreatePortalWrapper from "components/CreatePortalWrapper";
 
-import PropTypes from "prop-types";
-
 import * as S from "./styles";
 
-Loader.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
+type TLoader = {
+  isLoading: boolean;
 };
 
-function Loader({ isLoading }) {
+function Loader({ isLoading }: TLoader) {
   if (!isLoading) return null;
 
   return (

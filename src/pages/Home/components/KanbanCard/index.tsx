@@ -1,4 +1,4 @@
-import { TKanbanCard, useHome } from "pages/Home/useHome";
+import { ListEnum, TKanbanCard, useHome } from "pages/Home/useHome";
 
 import edit from "assets/images/edit.svg";
 import trash from "assets/images/trash.svg";
@@ -9,11 +9,23 @@ import theme from "styles/theme";
 import * as S from "./styles";
 
 function KanbanCard({ id, title, content = "", list }: TKanbanCard) {
-  const { handleDelete } = useHome();
+  const { handleMoveCard, handleDelete } = useHome();
   const colorMapper = {
     ToDo: theme.colors.blue.lighter,
     Doing: theme.colors.yellow,
     Done: theme.colors.green,
+  };
+
+  const leftMoveMapper = {
+    Done: ListEnum["Doing"],
+    Doing: ListEnum["ToDo"],
+    ToDo: ListEnum["Done"],
+  };
+
+  const rightMoveMapper = {
+    ToDo: ListEnum["Doing"],
+    Doing: ListEnum["Done"],
+    Done: ListEnum["ToDo"],
   };
 
   const cardFooterTag = `Kanb-${id?.slice(0, 4)}`;
@@ -36,13 +48,31 @@ function KanbanCard({ id, title, content = "", list }: TKanbanCard) {
       <S.Description>{content}</S.Description>
       <S.Footer>
         {arrowOnLeft && (
-          <S.TransparentButton>
+          <S.TransparentButton
+            onClick={() =>
+              handleMoveCard({
+                id,
+                title,
+                content,
+                list: leftMoveMapper[list],
+              })
+            }
+          >
             <S.ArrowIcon src={arrow} pos="left" />
           </S.TransparentButton>
         )}
         <S.Tag>{cardFooterTag}</S.Tag>
         {arrowOnRigth && (
-          <S.TransparentButton>
+          <S.TransparentButton
+            onClick={() =>
+              handleMoveCard({
+                id,
+                title,
+                content,
+                list: rightMoveMapper[list],
+              })
+            }
+          >
             <S.ArrowIcon src={arrow} pos="right" />
           </S.TransparentButton>
         )}

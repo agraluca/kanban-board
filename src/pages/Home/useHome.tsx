@@ -11,11 +11,17 @@ import CardService from "services/cardService";
 
 import { toast } from "utils/toast";
 
+export enum ListEnum {
+  ToDo = "ToDo",
+  Doing = "Doing",
+  Done = "Done",
+}
+
 export type TKanbanCard = {
   id: string;
   title: string;
   content: string;
-  list: "ToDo" | "Doing" | "Done";
+  list: ListEnum;
 };
 
 type TModal = {
@@ -33,6 +39,7 @@ export type UseHomeContextData = {
   cards: TKanbanCard[];
   isLoading: boolean;
   modal: TModal;
+  handleMoveCard: (card: TKanbanCard) => void;
   handleCloseModal: () => void;
   handleConfirmDelete: () => void;
   isDeletingLoading: boolean;
@@ -54,6 +61,7 @@ const useHomeContextDefaultValues = {
   cards: [],
   isLoading: false,
   modal: modalInitialState,
+  handleMoveCard: () => null,
   handleCloseModal: () => null,
   handleConfirmDelete: () => null,
   isDeletingLoading: false,
@@ -73,8 +81,44 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
   const [cards, setCards] = useState<TKanbanCard[]>([]);
 
   const handleCreateToken = useCallback(async () => {
-    await AuthService.createToken();
+    try {
+      setIsDeletingLoading(true);
+      await AuthService.createToken();
+    } catch {
+      toast.error("Ocorreu um erro ao se conectar", 4000);
+    } finally {
+      setIsDeletingLoading(false);
+    }
   }, []);
+
+  const handleListCards = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const cardsList = await CardService.listCards();
+      setHasError(false);
+      setCards(cardsList);
+    } catch {
+      setHasError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const handleMoveCard = useCallback(
+    async (card: TKanbanCard) => {
+      try {
+        setIsLoading(true);
+        await CardService.editCard(card);
+        setHasError(false);
+      } catch {
+        setHasError(true);
+      } finally {
+        handleListCards();
+        setIsLoading(false);
+      }
+    },
+    [handleListCards]
+  );
 
   const handleDelete = ({ id, title }: TDeleteModal) => {
     setModal({ isOpen: true, id, title });
@@ -98,19 +142,6 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
     }
   };
 
-  const handleListCards = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const cardsList = await CardService.listCards();
-      setHasError(false);
-      setCards(cardsList);
-    } catch {
-      setHasError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
     handleCreateToken();
   }, [handleCreateToken]);
@@ -125,6 +156,7 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
         cards,
         isLoading,
         modal,
+        handleMoveCard,
         handleCloseModal,
         handleConfirmDelete,
         isDeletingLoading,

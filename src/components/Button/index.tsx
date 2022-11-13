@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
 import Spinner from "components/Spinner";
 
@@ -6,11 +6,11 @@ import * as S from "./styles";
 
 type TButtonComponent = {
   children: ReactNode;
-  size: "normal" | "fullWidth";
-  colorType: "primary" | "danger";
-  isSubmiting: boolean;
-  disabled: boolean;
-};
+  size?: "normal" | "fullWidth";
+  colorType?: "primary" | "danger";
+  isSubmiting?: boolean;
+  disabled?: boolean;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 function Button({
   colorType = "primary",

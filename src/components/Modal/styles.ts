@@ -1,4 +1,5 @@
-import styled, { css } from "styled-components";
+import styled, { css, DefaultTheme } from "styled-components";
+import { TModal } from ".";
 
 export const Overlay = styled.div`
   ${({ theme }) => css`
@@ -29,15 +30,15 @@ export const ModalWrapper = styled.div`
 `;
 
 const headingColorModifiers = {
-  primary: (theme) => css`
+  primary: (theme: DefaultTheme) => css`
     color: ${theme.colors.black};
   `,
-  danger: (theme) => css`
+  danger: (theme: DefaultTheme) => css`
     color: ${theme.colors.red.main};
   `,
 };
 
-export const ModalTitle = styled.h3`
+export const ModalTitle = styled.h3<Pick<TModal, "colorType">>`
   ${({ theme, colorType }) => css`
     ${!!colorType && headingColorModifiers[colorType](theme)}
     font-size: ${theme.font.sizes.large};
@@ -62,6 +63,7 @@ export const ButtonContainer = styled.footer`
     margin-top: ${theme.spacings.large};
   `}
 `;
+
 export const CancelButton = styled.button`
   ${({ theme }) => css`
     border: 0.1rem solid transparent;

@@ -1,4 +1,4 @@
-import { TKanbanCard } from "pages/Home/useHome";
+import { ListEnum, TKanbanCard } from "pages/Home/useHome";
 import CardMapper from "./mappers/cardMapper";
 import HttpClient from "./utils/httpClient";
 
@@ -6,7 +6,7 @@ export type TCardServices = {
   id: string;
   titulo: string;
   conteudo: string;
-  lista: "ToDo" | "Doing" | "Done";
+  lista: ListEnum;
 };
 
 class CardService {
@@ -27,9 +27,9 @@ class CardService {
       body,
     });
   }
-  editCard(id: string, card: TKanbanCard) {
+  editCard(card: TKanbanCard) {
     const body = CardMapper.toPersistence(card);
-    return this.httpClient.put(`/cards/${id}`, {
+    return this.httpClient.put(`/cards/${card.id}`, {
       body,
     });
   }
