@@ -46,7 +46,7 @@ Para começar precisamos instalar algumas coisas
 ### Agora precisamos rodar a api
 
 ```bash
-$ mkdir kanban && cd kanban && mkdir BACK && cd BACK
+$ mkdir kanban && cd kanban
 $ git clone https://github.com/agraluca/kanban-board-api && cd kanban-board-api
 ```
 
@@ -67,7 +67,6 @@ $ yarn server
 
 ```bash
 # Volte para a mesma pasta kanban e siga daqui em diante
-$ mkdir FRONT && cd FRONT
 $ git clone https://github.com/agraluca/kanban-board.git && cd kanban-board
 ```
 
