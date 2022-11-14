@@ -12,6 +12,7 @@ import theme from "styles/theme";
 
 import * as S from "./styles";
 import Textarea from "components/Textarea";
+import Tooltip from "components/Tooltip";
 
 type KanbanCardComponent = { isEditing: boolean } & TKanbanCard;
 
@@ -41,7 +42,11 @@ function KanbanCard({
   isEditing = false,
 }: KanbanCardComponent) {
   const {
+    isEditing: someoneIsEditing,
+    isAdding,
     isLoading,
+    formError,
+    isEditingFormValid,
     handleMoveCard,
     handleDelete,
     handleShowEditArea,
@@ -58,36 +63,57 @@ function KanbanCard({
     <S.Wrapper>
       <S.Header>
         {!isEditing ? (
-          <S.Title backgroundColor={colorMapper[list]}>{title}</S.Title>
+          <Tooltip text={title}>
+            <S.Title backgroundColor={colorMapper[list]}>{title}</S.Title>
+          </Tooltip>
         ) : (
           <Input
             name="title"
             type="text"
             placeholder="Título..."
             initialValue={title}
-            onInputChange={(e) => handleChangeEditCard(e, id, list)}
-            error=""
+            onInputChange={(e) =>
+              handleChangeEditCard(e, { id, title, content, list })
+            }
+            error={formError.title}
             disabled={isLoading}
           />
         )}
 
         {!isEditing ? (
           <S.IconsWrapper>
-            <S.TransparentButton onClick={() => handleShowEditArea(id)}>
-              <S.Icon src={edit} />
-            </S.TransparentButton>
-            <S.TransparentButton onClick={() => handleDelete({ id, title })}>
-              <S.Icon src={trash} />
-            </S.TransparentButton>
+            <Tooltip text="Editar">
+              <S.TransparentButton
+                disabled={isAdding || Boolean(someoneIsEditing)}
+                onClick={() => handleShowEditArea(id)}
+              >
+                <S.Icon src={edit} />
+              </S.TransparentButton>
+            </Tooltip>
+            <Tooltip text="Excluir">
+              <S.TransparentButton
+                disabled={isAdding || Boolean(someoneIsEditing)}
+                onClick={() => handleDelete({ id, title })}
+              >
+                <S.Icon src={trash} />
+              </S.TransparentButton>
+            </Tooltip>
           </S.IconsWrapper>
         ) : (
           <S.IconsWrapper>
-            <S.TransparentButton onClick={handleSubmitEditCard}>
-              <S.Icon src={save} />
-            </S.TransparentButton>
-            <S.TransparentButton onClick={handleHideEditArea}>
-              <S.Icon src={cancel} />
-            </S.TransparentButton>
+            <Tooltip text="Salvar">
+              <S.TransparentButton
+                disabled={!isEditingFormValid}
+                onClick={handleSubmitEditCard}
+              >
+                <S.Icon src={save} />
+              </S.TransparentButton>
+            </Tooltip>
+            <Tooltip text="Cancelar">
+              <S.TransparentButton onClick={handleHideEditArea}>
+                <S.Icon src={cancel} />
+              </S.TransparentButton>
+            </Tooltip>
           </S.IconsWrapper>
         )}
       </S.Header>
@@ -98,41 +124,53 @@ function KanbanCard({
           name="content"
           placeholder="Conteúdo..."
           initialValue={content}
-          onTextareaChange={(e) => handleChangeEditCard(e, id, list)}
+          onTextareaChange={(e) =>
+            handleChangeEditCard(e, { id, title, content, list })
+          }
           disabled={isLoading}
-          error=""
+          error={formError.content}
         />
       )}
       {!isEditing && (
         <S.Footer>
           {arrowOnLeft && (
-            <S.TransparentButton
-              onClick={() =>
-                handleMoveCard({
-                  id,
-                  title,
-                  content,
-                  list: leftMoveMapper[list],
-                })
-              }
+            <Tooltip
+              text={`Mover para ${
+                leftMoveMapper[list] === "ToDo" ? "To Do" : leftMoveMapper[list]
+              }`}
             >
-              <S.ArrowIcon src={arrow} pos="left" />
-            </S.TransparentButton>
+              <S.TransparentButton
+                disabled={isAdding || Boolean(someoneIsEditing)}
+                onClick={() =>
+                  handleMoveCard({
+                    id,
+                    title,
+                    content,
+                    list: leftMoveMapper[list],
+                  })
+                }
+              >
+                <S.ArrowIcon src={arrow} pos="left" />
+              </S.TransparentButton>
+            </Tooltip>
           )}
           <S.Tag>{cardFooterTag}</S.Tag>
           {arrowOnRigth && (
-            <S.TransparentButton
-              onClick={() =>
-                handleMoveCard({
-                  id,
-                  title,
-                  content,
-                  list: rightMoveMapper[list],
-                })
-              }
-            >
-              <S.ArrowIcon src={arrow} pos="right" />
-            </S.TransparentButton>
+            <Tooltip text={`Mover para ${rightMoveMapper[list]}`}>
+              <S.TransparentButton
+                disabled={isAdding || Boolean(someoneIsEditing)}
+                onClick={() =>
+                  handleMoveCard({
+                    id,
+                    title,
+                    content,
+                    list: rightMoveMapper[list],
+                  })
+                }
+              >
+                <S.ArrowIcon src={arrow} pos="right" />
+              </S.TransparentButton>
+            </Tooltip>
           )}
         </S.Footer>
       )}

@@ -11,13 +11,14 @@ export type TToast = {
   id: number;
   type: "default" | "success" | "error";
   message: string;
-  duration: number;
+  duration?: number;
 };
 
+export type TToastEvent = Omit<TToast, "id">;
 export default function Toast() {
   const [toastInfo, setToastInfo] = useState<TToast[]>([]);
 
-  const handleAddToast = useCallback((event: any) => {
+  const handleAddToast = useCallback((event: TToastEvent) => {
     const { type, message, duration } = event;
     setToastInfo((prev) => [
       ...prev,
@@ -45,7 +46,7 @@ export default function Toast() {
             key={toast.id}
             type={toast.type}
             message={toast.message}
-            duration={toast.duration}
+            duration={toast.duration ?? 4000}
             handleRemoveToast={() => handleRemoveToast(toast.id)}
           />
         ))}

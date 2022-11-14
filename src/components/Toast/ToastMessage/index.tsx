@@ -49,7 +49,7 @@ export default function ToastMessage({
       {type !== "default" && (
         <S.Icon src={icon[type]?.src} alt={icon[type]?.alt} />
       )}
-      {message}
+      <p>{message}</p>
     </S.Toast>
   );
 }

@@ -23,7 +23,7 @@ export const Input = styled.input<Pick<TInput, "error">>`
     width: 100%;
     height: 3rem;
     background: ${theme.colors.white};
-    border-radius: ${theme.border.smallRadius};
+    border-radius: ${theme.border.radius};
     font-size: ${theme.font.sizes.small};
     border: 0.2rem solid ${theme.colors.gray.light};
     outline: 0;

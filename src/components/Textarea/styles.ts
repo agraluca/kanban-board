@@ -5,6 +5,7 @@ export const Wrapper = styled.section`
   ${() => css`
     width: 100%;
     display: flex;
+    flex-direction: column;
   `}
 `;
 
@@ -22,7 +23,7 @@ export const Textarea = styled.textarea<Pick<TTextarea, "error">>`
     width: 100%;
     min-height: 5rem;
     background: transparent;
-    border-radius: ${theme.border.smallRadius};
+    border-radius: ${theme.border.radius};
     border: 0.2rem solid ${theme.colors.gray.light};
     resize: none;
 

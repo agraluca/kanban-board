@@ -7,14 +7,8 @@ import * as S from "./styles";
 import Loader from "components/Loader";
 
 function Home() {
-  const {
-    cards,
-    modal,
-    isLoading,
-    handleCloseModal,
-    handleConfirmDelete,
-    isDeletingLoading,
-  } = useHome();
+  const { cards, modal, isLoading, handleCloseModal, handleConfirmDelete } =
+    useHome();
 
   const toDoCards = cards.filter((card) => card.list === "ToDo");
   const doingCards = cards.filter((card) => card?.list === "Doing");
@@ -32,7 +26,7 @@ function Home() {
         colorType="danger"
         title={`Tem certeza que deseja remover o card '${modal.title}'?`}
         handleConfirmDelete={handleConfirmDelete}
-        isLoading={isDeletingLoading}
+        isLoading={isLoading}
       />
     </S.Wrapper>
   );

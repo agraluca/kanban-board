@@ -1,4 +1,5 @@
 import { createGlobalStyle, css } from "styled-components";
+import "tippy.js/dist/tippy.css";
 
 const GlobalStyles = createGlobalStyle`
   * {

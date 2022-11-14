@@ -7,14 +7,18 @@ import cancel from "assets/images/cancel.svg";
 
 import * as S from "./styles";
 import Textarea from "components/Textarea";
+import Tooltip from "components/Tooltip";
 
 function KanbanAddCard() {
   const {
+    isAddingFormValid,
     isLoading,
     handleHideAddArea,
     handleChangeAddingCard,
     handleSubmitCard,
+    formError,
   } = useHome();
+
   return (
     <S.Wrapper>
       <S.Header>
@@ -22,25 +26,35 @@ function KanbanAddCard() {
           name="title"
           type="text"
           placeholder="Título..."
-          onChange={handleChangeAddingCard}
-          error=""
+          onInputChange={handleChangeAddingCard}
+          error={formError.title}
           disabled={isLoading}
         />
         <S.IconsWrapper>
-          <S.TransparentButton disabled={isLoading} onClick={handleSubmitCard}>
-            <S.Icon src={save} />
-          </S.TransparentButton>
-          <S.TransparentButton disabled={isLoading} onClick={handleHideAddArea}>
-            <S.Icon src={cancel} />
-          </S.TransparentButton>
+          <Tooltip text="Criar">
+            <S.TransparentButton
+              disabled={isLoading || !isAddingFormValid}
+              onClick={handleSubmitCard}
+            >
+              <S.Icon src={save} />
+            </S.TransparentButton>
+          </Tooltip>
+          <Tooltip text="Cancelar">
+            <S.TransparentButton
+              disabled={isLoading}
+              onClick={handleHideAddArea}
+            >
+              <S.Icon src={cancel} />
+            </S.TransparentButton>
+          </Tooltip>
         </S.IconsWrapper>
       </S.Header>
       <Textarea
         name="content"
         placeholder="Conteúdo..."
-        onChange={handleChangeAddingCard}
+        onTextareaChange={handleChangeAddingCard}
+        error={formError.content}
         disabled={isLoading}
-        error=""
       />
     </S.Wrapper>
   );

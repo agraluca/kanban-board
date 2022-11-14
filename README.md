@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+<h3 align="center">
+  Kanban
+</h3>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <a href="https://www.linkedin.com/in/agra-luca/"><img alt="Feito por" src="https://img.shields.io/badge/feito%20por-Luca%20Agra-%2315C3"></a>
+  <img alt="Tamanho do repo" src="https://img.shields.io/github/repo-size/agraluca/kanban-board?color=15C3D6%22">
+  <a href="https://github.com/agraluca/kanban-board/commits/main"><img alt="Último commit GitHub" src="https://img.shields.io/github/last-commit/agraluca/kanban-board?color=15C3D6"></a>
+</p>
 
-## Available Scripts
+<p align="center">
+  <a href="#-sobre-o-projeto">Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-começando">Começando</a>&nbsp;&nbsp;&nbsp;
+</p>
 
-In the project directory, you can run:
+## :bulb: Sobre o projeto
 
-### `yarn start`
+Esse projeto foi desenvolvido como um desafio. O objetivo era fazer um quadro kanban.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Nesse projeto utilizei o ReactJS para implementar um sistema de quadros Kanban.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Montei uma estrutura de projeto com ReactJS, TypeScript, Styled Components, EsLint, Prettier. Mantendo-o o mais simples possível.
 
-### `yarn test`
+A logo foi feita no Figma, segue link do [projeto](https://www.figma.com/file/0blEyA43IUpKpiLbIh65dE/KanbanProject?node-id=0%3A1)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Tecnologias
 
-### `yarn build`
+Technologias que eu utilizei desenvolvendo essa aplicação:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [ReactJS](https://pt-br.reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Styled Components](https://styled-components.com/)
+- [EsLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 💻 Começando
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Para começar precisamos instalar algumas coisas
 
-### `yarn eject`
+### Requerimentos
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- [Node.js](https://nodejs.org/en/)
+- [Yarn](https://classic.yarnpkg.com/)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Agora precisamos rodar a api
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+$ mkdir kanban && cd kanban && mkdir BACK && cd BACK
+$ git clone https://github.com/agraluca/kanban-board-api && cd kanban-board-api
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Siga esses passos**
 
-## Learn More
+### Back-end
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+# Instale as dependências
+$ yarn
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Inicie a aplicação
+$ yarn server
 
-### Code Splitting
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Agora precisamos rodar o front
 
-### Analyzing the Bundle Size
+```bash
+# Volte para a mesma pasta kanban e siga daqui em diante
+$ mkdir FRONT && cd FRONT
+$ git clone https://github.com/agraluca/kanban-board.git && cd kanban-board
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Siga esses passos**
 
-### Making a Progressive Web App
+### Front-end
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+# Instale as dependências
+$ yarn
 
-### Advanced Configuration
+# Inicie a aplicação
+$ yarn start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+// Isso é tudo =D
+```
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Feito com amor 💙&nbsp; por Luca Agra 👋 &nbsp;[Veja meu linkedin](https://www.linkedin.com/in/agra-luca/)

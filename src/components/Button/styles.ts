@@ -41,7 +41,7 @@ export const Button = styled.button<TButon>`
     ${!!colorType && buttonColorModifiers[colorType](theme)};
     color: ${theme.colors.white};
     border: none;
-    border-radius: ${theme.border.smallRadius};
+    border-radius: ${theme.border.radius};
     font-size: ${theme.font.sizes.medium};
     font-weight: ${theme.font.weight.bold};
     padding: ${theme.spacings.xsmall};

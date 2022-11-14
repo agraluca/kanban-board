@@ -1,5 +1,6 @@
 import KanbanCard from "../KanbanCard";
 import KanbanAddCard from "../KanbanAddCard";
+
 import { TKanbanCard, useHome } from "pages/Home/useHome";
 
 import plusIcon from "assets/images/plus-circle.svg";
@@ -7,6 +8,7 @@ import plusIcon from "assets/images/plus-circle.svg";
 import theme from "styles/theme";
 
 import * as S from "./styles";
+import Tooltip from "components/Tooltip";
 
 type TKanbanBoard = {
   title: "To Do" | "Doing" | "Done";
@@ -31,9 +33,14 @@ function KanbanBoard({ title = "To Do", cards = [], type }: TKanbanBoard) {
       <S.Title backgroundColor={colorMapper[type]}>{title}</S.Title>
 
       {showAddArea && (
-        <S.AddMoreArea onClick={handleShowAddArea}>
-          <S.PlusIcon src={plusIcon} />
-        </S.AddMoreArea>
+        <Tooltip text="Adicionar uma task">
+          <S.AddMoreArea
+            disabled={Boolean(isEditing)}
+            onClick={handleShowAddArea}
+          >
+            <S.PlusIcon src={plusIcon} />
+          </S.AddMoreArea>
+        </Tooltip>
       )}
 
       {showAddCard && <KanbanAddCard />}

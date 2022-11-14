@@ -1,3 +1,4 @@
+import useErrors from "hooks/useErrors";
 import {
   ChangeEvent,
   createContext,
@@ -52,16 +53,20 @@ export type UseHomeContextData = {
   handleHideEditArea: () => void;
   handleChangeEditCard: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    id: string,
-    list: ListEnum
+    { id, title, content, list }: TKanbanCard
   ) => void;
   handleSubmitEditCard: () => void;
   handleMoveCard: (card: TKanbanCard) => void;
   handleCloseModal: () => void;
   handleConfirmDelete: () => void;
-  isDeletingLoading: boolean;
   hasError: boolean;
+  formError: {
+    title: string;
+    content: string;
+  };
   handleDelete: ({ id, title }: TDeleteModal) => void;
+  isAddingFormValid: boolean;
+  isEditingFormValid: boolean;
 };
 
 export type UseHomeProviderProps = {
@@ -89,7 +94,7 @@ const initialStateEditingCard = {
 
 const useHomeContextDefaultValues = {
   cards: [],
-  isLoading: false,
+  isLoading: true,
   modal: modalInitialState,
   isAdding: false,
   handleShowAddArea: () => null,
@@ -104,9 +109,14 @@ const useHomeContextDefaultValues = {
   handleMoveCard: () => null,
   handleCloseModal: () => null,
   handleConfirmDelete: () => null,
-  isDeletingLoading: false,
   hasError: false,
+  formError: {
+    title: "",
+    content: "",
+  },
   handleDelete: () => null,
+  isAddingFormValid: false,
+  isEditingFormValid: false,
 };
 
 export const UseHomeContext = createContext<UseHomeContextData>(
@@ -114,11 +124,17 @@ export const UseHomeContext = createContext<UseHomeContextData>(
 );
 
 export default function UseHomeProvider({ children }: UseHomeProviderProps) {
+  const [cards, setCards] = useState<TKanbanCard[]>([]);
+
   const [modal, setModal] = useState<TModal>(modalInitialState);
+
   const [isLoading, setIsLoading] = useState(true);
+  const [isAddingLoading, setIsAddingLoading] = useState(false);
+  const [isMovingLoading, setIsMovingLoading] = useState(false);
+  const [isEditingLoading, setIsEditingLoading] = useState(false);
   const [isDeletingLoading, setIsDeletingLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [cards, setCards] = useState<TKanbanCard[]>([]);
+
   const [isAdding, setIsAdding] = useState(false);
   const [addingCard, setAddingCard] = useState(initialStateAddingCard);
 
@@ -127,16 +143,29 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
     initialStateEditingCard
   );
 
+  const { removeError, setError, formError, resetErrors } = useErrors();
+
   const handleCreateToken = useCallback(async () => {
     try {
-      setIsDeletingLoading(true);
+      setIsLoading(true);
       await AuthService.createToken();
     } catch {
       toast.error("Ocorreu um erro ao se conectar", 4000);
     } finally {
-      setIsDeletingLoading(false);
+      setIsLoading(false);
     }
   }, []);
+
+  const handleErrorChange = useCallback(
+    (name: string, value: string) => {
+      removeError(name);
+
+      if (!value) {
+        return setError(name, "Campo obrigatório");
+      }
+    },
+    [removeError, setError]
+  );
 
   const handleListCards = useCallback(async () => {
     try {
@@ -158,6 +187,7 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
   const handleHideAddArea = () => {
     setIsAdding(false);
     setAddingCard(initialStateAddingCard);
+    resetErrors();
   };
 
   const handleChangeAddingCard = useCallback(
@@ -166,13 +196,14 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
         ...prev,
         [e.target.name]: e.target.value,
       }));
+      handleErrorChange(e.target.name, e.target.value);
     },
-    []
+    [handleErrorChange]
   );
 
   const handleSubmitCard = useCallback(async () => {
     try {
-      setIsLoading(true);
+      setIsAddingLoading(true);
       await CardService.createCard(addingCard);
       toast.success("Task criada com sucesso!", 4000);
     } catch {
@@ -181,7 +212,7 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
       setIsAdding(false);
       setAddingCard(initialStateAddingCard);
       handleListCards();
-      setIsLoading(false);
+      setIsAddingLoading(false);
     }
   }, [addingCard, handleListCards]);
 
@@ -192,27 +223,30 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
   const handleHideEditArea = () => {
     setIsEditing("");
     setEditingCard(initialStateEditingCard);
+    resetErrors();
   };
 
   const handleChangeEditCard = useCallback(
     (
       e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      id: string,
-      list: ListEnum
+      { id, title, content, list }: TKanbanCard
     ) => {
       setEditingCard((prev) => ({
         ...prev,
         id,
+        title,
+        content,
         list,
         [e.target.name]: e.target.value,
       }));
+      handleErrorChange(e.target.name, e.target.value);
     },
-    []
+    [handleErrorChange]
   );
 
   const handleSubmitEditCard = useCallback(async () => {
     try {
-      setIsLoading(true);
+      setIsEditingLoading(true);
       await CardService.editCard(editingCard);
       toast.success("Task editada com sucesso!", 4000);
     } catch {
@@ -221,14 +255,14 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
       setIsEditing("");
       setEditingCard(initialStateEditingCard);
       handleListCards();
-      setIsLoading(false);
+      setIsEditingLoading(false);
     }
   }, [editingCard, handleListCards]);
 
   const handleMoveCard = useCallback(
     async (card: TKanbanCard) => {
       try {
-        setIsLoading(true);
+        setIsMovingLoading(true);
         await CardService.editCard(card);
         toast.success("Task movida com sucesso!", 4000);
         setHasError(false);
@@ -236,7 +270,7 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
         setHasError(true);
       } finally {
         handleListCards();
-        setIsLoading(false);
+        setIsMovingLoading(false);
       }
     },
     [handleListCards]
@@ -264,6 +298,14 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
     }
   };
 
+  const isAddingFormValid =
+    Object.values(addingCard).every((value) => !!value) &&
+    Object.values(formError).filter((err) => !!err).length === 0;
+
+  const isEditingFormValid =
+    Object.values(editingCard).every((value) => !!value) &&
+    Object.values(formError).filter((err) => !!err).length === 0;
+
   useEffect(() => {
     handleCreateToken();
   }, [handleCreateToken]);
@@ -276,7 +318,12 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
     <UseHomeContext.Provider
       value={{
         cards,
-        isLoading,
+        isLoading:
+          isLoading ||
+          isAddingLoading ||
+          isDeletingLoading ||
+          isEditingLoading ||
+          isMovingLoading,
         modal,
         isAdding,
         handleShowAddArea,
@@ -291,9 +338,11 @@ export default function UseHomeProvider({ children }: UseHomeProviderProps) {
         handleMoveCard,
         handleCloseModal,
         handleConfirmDelete,
-        isDeletingLoading,
-        hasError,
         handleDelete,
+        hasError,
+        formError,
+        isAddingFormValid,
+        isEditingFormValid,
       }}
     >
       {children}

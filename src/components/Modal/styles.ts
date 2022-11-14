@@ -20,7 +20,7 @@ export const ModalWrapper = styled.div`
     flex-direction: column;
     gap: ${theme.spacings.xxsmall};
     background: ${theme.colors.white};
-    border-radius: ${theme.border.smallRadius};
+    border-radius: ${theme.border.radius};
     padding: ${theme.spacings.small};
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
     width: 100%;
@@ -67,7 +67,7 @@ export const ButtonContainer = styled.footer`
 export const CancelButton = styled.button`
   ${({ theme }) => css`
     border: 0.1rem solid transparent;
-    border-radius: ${theme.border.smallRadius};
+    border-radius: ${theme.border.radius};
     color: ${theme.colors.gray.dark};
     background: transparent;
     padding: ${theme.spacings.xsmall} ${theme.spacings.small};

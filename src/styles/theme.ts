@@ -1,11 +1,9 @@
 export default {
   grid: {
     container: "120rem",
-    gutter: "3.2rem",
   },
   border: {
-    smallRadius: "0.4rem",
-    radius: "2.5rem",
+    radius: "0.4rem",
   },
   font: {
     family:
@@ -19,7 +17,6 @@ export default {
       small: "1.4rem",
       medium: "1.6rem",
       large: "2.2rem",
-      xlarge: "2.4rem",
     },
   },
   colors: {

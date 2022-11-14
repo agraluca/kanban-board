@@ -8,7 +8,7 @@ export const Wrapper = styled.section`
     flex-direction: column;
     background: ${theme.colors.white};
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
-    border-radius: ${theme.border.smallRadius};
+    border-radius: ${theme.border.radius};
     width: 100%;
     padding: ${theme.spacings.xxsmall};
   `}
@@ -37,7 +37,7 @@ export const Title = styled.h4`
     font-size: ${theme.font.sizes.medium};
     font-weight: ${theme.font.weight.bold};
     padding: ${theme.spacings.xxsmall};
-    border-radius: ${theme.border.smallRadius};
+    border-radius: ${theme.border.radius};
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -62,7 +62,7 @@ export const Footer = styled.footer`
     background: ${theme.colors.gray.light};
     width: 100%;
     padding: ${theme.spacings.xxsmall};
-    border-radius: 0 0 ${theme.border.smallRadius} ${theme.border.smallRadius};
+    border-radius: 0 0 ${theme.border.radius} ${theme.border.radius};
   `}
 `;
 
